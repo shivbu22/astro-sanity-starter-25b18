@@ -1,5 +1,5 @@
 ---
-import { marked } from 'marked';
+import { parseMarkdown } from '@utils/markdown';
 import { type CtaSection } from 'types';
 import Action from '@components/Action.astro';
 import Section from '@components/Section.astro';
@@ -19,7 +19,7 @@ const { heading, body, cta, ...rest } = Astro.props;
             </h2>
         )
     }
-    {body && <div class:list={['mx-auto', heading && 'mt-4', 'max-w-prose markdown']} data-sb-field-path=".body" set:html={marked.parse(body)} />}
+    {body && <div class:list={['mx-auto', heading && 'mt-4', 'max-w-prose markdown']} data-sb-field-path=".body" set:html={parseMarkdown(body)} />}
     {
         cta && cta.length > 0 && (
             <div class:list={[(heading || body) && 'mt-8', 'flex flex-wrap items-center justify-center gap-4']} data-sb-field-path=".cta">
