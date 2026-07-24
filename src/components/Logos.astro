@@ -1,5 +1,5 @@
 ---
-import { marked } from 'marked';
+import { parseMarkdown } from '@utils/markdown';
 import { type LogosSection } from 'types';
 import LogoStripAnimated from '@components/LogoStripAnimated.astro';
 import LogoStripStatic from '@components/LogoStripStatic.astro';
@@ -20,7 +20,7 @@ const { heading, body, items, motion, ...rest } = Astro.props;
             </h2>
         )
     }
-    {body && <div class:list={['mx-auto', heading && 'mt-4', 'max-w-prose markdown']} data-sb-field-path=".body" set:html={marked.parse(body)} />}
+    {body && <div class:list={['mx-auto', heading && 'mt-4', 'max-w-prose markdown']} data-sb-field-path=".body" set:html={parseMarkdown(body)} />}
     {
         items &&
             items.length > 0 &&

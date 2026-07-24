@@ -1,0 +1,4 @@
+## 2024-07-24 - [Fix XSS Vulnerability in Markdown Parsing]
+**Vulnerability:** Markdown from Sanity CMS was parsed with `marked.parse()` and directly rendered via `set:html={marked.parse(body)}` without any sanitization across 8 Astro components.
+**Learning:** By default, marked does not sanitize its HTML output, which allows malicious script execution (XSS) if untrusted input contains `<script>` tags or inline event handlers. When fixing this by introducing `sanitize-html`, I learned that it is important to explicitly allow legitimate Markdown tags (like `img`) that `sanitize-html` aggressively strips by default, otherwise legitimate content layout breaks.
+**Prevention:** Always wrap arbitrary text-to-HTML parser outputs (like marked) in a DOM sanitizer (like sanitize-html) before rendering the HTML string. When implementing sanitizers, ensure you understand their default configurations and whitelist required application-specific tags (e.g. `img`, `iframe`).
