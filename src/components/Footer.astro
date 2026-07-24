@@ -1,5 +1,5 @@
 ---
-import { marked } from 'marked';
+import { markdownToHtml } from '@utils/markdown';
 import { type Footer } from 'types';
 
 interface Props extends Footer {
@@ -12,7 +12,7 @@ const { text, 'data-sb-field-path': fieldPath } = Astro.props;
 {
     text && (
         <footer class="px-4 py-16 sm:px-5 sm:py-24" data-sb-field-path={fieldPath}>
-            <div class="mx-auto text-center max-w-7xl" data-sb-field-path=".text" set:html={marked.parse(text)} />
+            <div class="mx-auto text-center max-w-7xl" data-sb-field-path=".text" set:html={await markdownToHtml(text)} />
         </footer>
     )
 }

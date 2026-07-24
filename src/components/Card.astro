@@ -1,5 +1,5 @@
 ---
-import { marked } from 'marked';
+import { markdownToHtml } from '@utils/markdown';
 import { type Card } from 'types';
 import Action from '@components/Action.astro';
 import Badge from '@components/Badge.astro';
@@ -34,7 +34,7 @@ const { badge, heading, body, cta, image, theme, textAlign, hasBorder, class: cl
                 </h3>
             )
         }
-        {body && <div class="markdown" set:html={marked.parse(body)} data-sb-field-path=".body" />}
+        {body && <div class="markdown" set:html={await markdownToHtml(body)} data-sb-field-path=".body" />}
         {
             cta && cta.length > 0 && (
                 <div class="card-actions items-center" data-sb-field-path=".cta">
