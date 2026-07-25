@@ -5,7 +5,7 @@ import { loadEnv } from 'vite';
 import { createClient, type ClientConfig, type SanityClient } from '@sanity/client';
 
 const { SANITY_PROJECT_ID, SANITY_DATASET, SANITY_TOKEN, STACKBIT_PREVIEW, SANITY_PREVIEW_DRAFTS } = loadEnv(process.env.NODE_ENV || '', process.cwd(), '');
-const isDev = import.meta.env.DEV;
+const isDev = process.env.NODE_ENV === "development";
 const isDeployPreview = process.env.CONTEXT === 'deploy-preview';
 const previewDrafts = STACKBIT_PREVIEW?.toLowerCase() === 'true' || SANITY_PREVIEW_DRAFTS?.toLowerCase() === 'true';
 
