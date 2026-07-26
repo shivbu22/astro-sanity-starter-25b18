@@ -1,0 +1,4 @@
+## 2024-05-24 - GROQ Query Injection
+**Vulnerability:** A GROQ query in `src/data/page.js` concatenated user-controlled input (`id`) directly into the query string: `*[_type == "page" && _id == "${id}"]`. This could allow a malicious user to manipulate the query logic.
+**Learning:** Just like SQL, NoSQL and specific query languages like GROQ (used by Sanity CMS) are susceptible to injection attacks if inputs are not properly sanitized or parameterized. Using template literals for IDs in queries creates a direct vector for injection.
+**Prevention:** Always use parameterized queries when passing variables to a GROQ query. Use the `$paramName` syntax in the query string and pass the variables as an object in the second argument to `client.fetch(query, params)`.
