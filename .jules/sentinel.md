@@ -1,0 +1,4 @@
+## 2026-07-27 - [Fix GROQ Injection Vulnerability in Sanity CMS Queries]
+**Vulnerability:** The codebase had a GROQ query injection vulnerability in `src/data/page.js` because user-supplied `id` input was being directly interpolated into the Sanity query string.
+**Learning:** This existed because of a lack of awareness about the necessity of parameterized queries when constructing GROQ queries dynamically with external or variable inputs. Even if Sanity CMS is used primarily for content, injection vulnerabilities still exist if an attacker can manipulate the query.
+**Prevention:** Always use parameterized queries for dynamic GROQ query parameters by utilizing `$` syntax within the query string and passing the parameters as the second argument to `client.fetch`.
