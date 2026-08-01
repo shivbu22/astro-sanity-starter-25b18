@@ -1,0 +1,4 @@
+## 2024-03-24 - GROQ Query Injection
+**Vulnerability:** A GROQ query in `src/data/page.js` was using string interpolation for the `id` argument, which could allow a malicious actor to inject malicious query logic.
+**Learning:** Sanity GROQ queries shouldn't use string interpolation for variables like JavaScript template literals (`*[_type == "page" && _id == "${id}"]`), as this leads to GROQ injection vulnerabilities.
+**Prevention:** Always use parameterized queries for dynamic values in GROQ (`*[_type == "page" && _id == $id]`, with `{ id }` passed as variables) to ensure inputs are properly escaped and treated as literals rather than query operators.
