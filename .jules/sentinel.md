@@ -1,0 +1,4 @@
+## 2025-02-28 - [CRITICAL] GROQ Query Injection
+**Vulnerability:** User input was directly concatenated into a GROQ query in `src/data/page.js` using string interpolation (`*[_type == "page" && _id == "${id}"]`), which could allow an attacker to inject arbitrary GROQ syntax and bypass restrictions or access unauthorized data.
+**Learning:** Sanity CMS uses GROQ queries, which like SQL, are vulnerable to injection attacks if user inputs are concatenated directly into the query string instead of using parameterized variables. The string interpolation format used in Javascript makes this easy to accidentally introduce.
+**Prevention:** Always use parameterized variables when inserting dynamic data into GROQ queries (e.g., `*[_type == "page" && _id == $id]`) and pass the variables in a separate parameters object (e.g., `{ id }`). Never use string interpolation for variables within GROQ queries.
