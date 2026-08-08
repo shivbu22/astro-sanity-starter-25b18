@@ -1,0 +1,4 @@
+## 2024-03-21 - [CRITICAL] GROQ Query Injection via String Interpolation
+**Vulnerability:** Found string interpolation used for dynamic GROQ query parameters (`_id == "${id}"`) instead of parameterized queries.
+**Learning:** This introduces a GROQ injection vulnerability, similar to SQL injection, allowing attackers to manipulate queries. Also learned that when switching to parameterized queries for static site generation, an explicit check for undefined parameters (`if (!id) return [];`) is necessary before calling `client.fetch()` to avoid Sanity client build errors.
+**Prevention:** Always use parameterized queries (e.g., `_id == $id` with `{ id }` parameter object) for any user or dynamic input in Sanity GROQ queries, and always explicitly handle falsy parameters prior to the fetch call.
