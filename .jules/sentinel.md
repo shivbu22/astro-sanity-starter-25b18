@@ -1,0 +1,4 @@
+## 2024-03-24 - [CRITICAL GROQ query injection in getPageById]
+**Vulnerability:** Sanity GROQ query was vulnerable to injection by directly interpolating the `id` argument in the query string (`*[_type == "page" && _id == "${id}"]`).
+**Learning:** String interpolation in GROQ queries allows attackers to bypass intended constraints or access arbitrary data. Also, passing `undefined` parameters to `client.fetch` during Astro's static site generation (SSG) or SSR evaluation causes Sanity client errors and breaks the build.
+**Prevention:** Always use parameterized queries for dynamic values (e.g., `_id == $id` with `{ id }`) to prevent GROQ query injection. Additionally, explicitly handle falsy/undefined parameter values (e.g., `if (!id) return [];`) before calling `client.fetch` to prevent build crashes.
