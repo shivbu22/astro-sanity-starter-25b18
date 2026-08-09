@@ -18,5 +18,6 @@ export async function fetchData() {
 }
 
 export async function getPageById(id) {
-    return await client.fetch(`*[_type == "page" && _id == "${id}"] ${PAGE_QUERY_OBJ}`);
+    if (!id) return null;
+    return await client.fetch(`*[_type == "page" && _id == $id] ${PAGE_QUERY_OBJ}`, { id });
 }
