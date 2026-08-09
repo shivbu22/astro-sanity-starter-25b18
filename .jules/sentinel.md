@@ -1,0 +1,5 @@
+
+## 2024-05-23 - [GROQ Injection]
+**Vulnerability:** GROQ query injection vulnerability where user-supplied or runtime-generated IDs were concatenated directly into the Sanity GROQ query string using template literals (e.g., `_id == "${id}"`). This pattern could allow attackers to inject arbitrary GROQ conditions, potentially bypassing data access controls or exposing sensitive documents.
+**Learning:** The project relies on Sanity CMS and its GROQ querying language. Standard string interpolation was used for queries under the assumption that IDs are trusted or safe. However, dynamic queries must always be parameterized. Additionally, passing `undefined` or falsy values to parameterized queries in the Astro build/SSR context can cause Sanity client errors, breaking the build.
+**Prevention:** Always use parameterized queries (e.g., `_id == $id`) with an arguments object passed to `client.fetch`. Additionally, explicitly handle and short-circuit on falsy or `undefined` parameter values (e.g., `if (!id) return [];`) before calling `client.fetch`.
