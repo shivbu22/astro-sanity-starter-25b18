@@ -18,5 +18,7 @@ export async function fetchData() {
 }
 
 export async function getPageById(id) {
-    return await client.fetch(`*[_type == "page" && _id == "${id}"] ${PAGE_QUERY_OBJ}`);
+    if (!id) return [];
+    // Use parameterized queries to prevent GROQ injection
+    return await client.fetch(`*[_type == "page" && _id == $id] ${PAGE_QUERY_OBJ}`, { id });
 }
