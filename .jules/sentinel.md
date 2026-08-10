@@ -1,0 +1,4 @@
+## 2026-08-10 - GROQ Injection Vulnerability
+**Vulnerability:** Found unparameterized user input (`id`) passed directly to a GROQ query via string interpolation in `getPageById` within `src/data/page.js`.
+**Learning:** Sanity CMS GROQ queries can be manipulated through string interpolation similar to SQL injection, potentially allowing unauthorized data access. Also, passing `undefined` parameters during static generation or SSR evaluation causes Sanity client errors, so handling falsy inputs is critical.
+**Prevention:** Always use parameterized queries (e.g., `$id` and passing `{ id }`) for GROQ queries, and explicitly check and handle falsy/undefined parameter values before calling `client.fetch`.

@@ -24,11 +24,17 @@
         "tailwindcss": "^4.0.9"
     },
     "devDependencies": {
+        "@astrojs/check": "^0.9.10",
         "@sanity/export": "^3.38.1",
         "@sanity/import": "^3.37.4",
+        "@sanity/vision": "^6.9.1",
         "@stackbit/cms-sanity": "^0.2.86",
         "@stackbit/types": "^2.0.0",
         "configstore": "7.0.0",
-        "daisyui": "^5.0.0"
+        "daisyui": "^5.0.0",
+        "react": "^19.2.8",
+        "react-dom": "^19.2.8",
+        "sanity-plugin-markdown": "^9.0.10",
+        "typescript": "^5.7.3"
     }
 }
