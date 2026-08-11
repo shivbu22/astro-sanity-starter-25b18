@@ -1,0 +1,4 @@
+## 2024-08-11 - GROQ Injection Vulnerability Fix
+**Vulnerability:** String interpolation used in Sanity GROQ queries (`_id == "${id}"`) in `src/data/page.js` allowed for potential GROQ injection.
+**Learning:** String interpolation in queries can be manipulated by malicious input to alter query logic, similar to SQL injection. Furthermore, when Astro builds static routes or evaluates components during SSR, it can pass undefined variables, which would crash the client query if not caught early.
+**Prevention:** Always use parameterized queries (`_id == $id`, `{ id }`) when passing user data or variables to Sanity GROQ queries. Additionally, explicitly check for and handle falsy parameters (e.g., `if (!id) return [];`) before executing the fetch call to prevent build/SSR errors.
