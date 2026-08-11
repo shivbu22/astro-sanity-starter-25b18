@@ -18,5 +18,8 @@ export async function fetchData() {
 }
 
 export async function getPageById(id) {
-    return await client.fetch(`*[_type == "page" && _id == "${id}"] ${PAGE_QUERY_OBJ}`);
+    // 🛡️ Security Fix: Handle falsy parameters and use parameterized GROQ queries
+    // to prevent injection vulnerabilities.
+    if (!id) return [];
+    return await client.fetch(`*[_type == "page" && _id == $id] ${PAGE_QUERY_OBJ}`, { id });
 }
