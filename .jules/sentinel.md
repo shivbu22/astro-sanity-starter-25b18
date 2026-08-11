@@ -1,0 +1,4 @@
+## 2024-08-11 - [GROQ Query Injection in Data Fetching]
+**Vulnerability:** Found string interpolation used directly within GROQ queries (e.g., `*[_type == "page" && _id == "${id}"]`), which introduces a GROQ query injection vulnerability allowing malicious users to execute arbitrary queries or bypass data access logic.
+**Learning:** The project's data layer lacked protections against query manipulation when dynamically substituting variables into Sanity API queries. Furthermore, undefined parameters passed during Astro builds (e.g., SSR or SSG) crash the build if not checked gracefully before sending requests.
+**Prevention:** Always use parameterized GROQ queries (e.g., `*[_type == "page" && _id == $id]`, `{id}`) instead of string concatenation/interpolation. Furthermore, explicitly check for and return early for falsy parameters (e.g., `if (!id) return [];`) to stabilize the build process.
