@@ -1,0 +1,4 @@
+## 2024-10-27 - [Fix GROQ Injection]
+**Vulnerability:** GROQ injection vulnerability in `src/data/page.js` where user input (`id`) was concatenated directly into the query string (`_id == "${id}"`).
+**Learning:** Sanity GROQ queries must always be parameterized (e.g., using `$id` instead of string interpolation) to prevent GROQ query injection vulnerabilities. When passing variables to parameterized Sanity GROQ queries in Astro components, explicitly handle falsy/undefined parameter values (e.g., `if (!id) return [];`) before calling `client.fetch`. Passing `undefined` parameters during Astro's static site generation or SSR evaluation can cause Sanity client errors and break the build.
+**Prevention:** Always use parameterized queries for dynamic values in GROQ queries. Always check and handle falsy parameters prior to running `client.fetch`.
