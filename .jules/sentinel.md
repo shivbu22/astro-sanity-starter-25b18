@@ -1,0 +1,4 @@
+## 2024-03-27 - GROQ Query Injection
+**Vulnerability:** User input was directly interpolated into a Sanity GROQ query in `getPageById`, which could allow arbitrary query logic execution.
+**Learning:** Sanity GROQ queries must always be parameterized, just like SQL, to prevent injection attacks. Additionally, passing undefined parameters into parameterized queries without an explicit guard check (e.g. `if (!id)`) causes runtime evaluation errors that break static site generation and SSR.
+**Prevention:** Use parameterized GROQ queries (e.g. `$id` and passing variables object) instead of string interpolation. Always handle falsy/undefined variables properly before executing a parameterized client fetch.
