@@ -1,0 +1,4 @@
+## 2026-08-15 - GROQ Injection Vulnerability in Sanity Queries
+**Vulnerability:** Sanity GROQ queries used string interpolation (`_id == "${id}"`) instead of parameterized queries.
+**Learning:** This exposes the application to GROQ query injection vulnerabilities. Furthermore, passing falsy or undefined parameters during static site generation causes Sanity client errors which breaks the build. Falsy/undefined parameters should be explicitly checked before calling `client.fetch()`. Sanity GROQ queries that begin with `*` return arrays by default, so early returns should return an empty array `[]` rather than `null`.
+**Prevention:** Always use parameterized queries (e.g. `_id == $id`) with an parameters object as the second argument to `client.fetch`. Always add early exit conditions returning `[]` for falsy parameter values.
