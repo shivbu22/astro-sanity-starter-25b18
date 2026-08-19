@@ -1,0 +1,4 @@
+## 2026-08-19 - [CRITICAL] GROQ Query Injection Vulnerability
+**Vulnerability:** Sanity GROQ query in `src/data/page.js` used string interpolation directly in the query string, which allows an attacker to manipulate the query structure.
+**Learning:** Even internal CMS query languages like GROQ are vulnerable to injection attacks if user inputs are concatenated. In addition, when adding early exits in Astro/Sanity fetching queries, an empty array `[]` should be returned to preserve the expected return type (since sanity queries starting with `*` return arrays). Passing `undefined` into `client.fetch()` causes SSR errors.
+**Prevention:** Always parameterize GROQ queries using `$variableName` syntax and pass variables as the second argument to `client.fetch(query, { variableName })`. Include early validation checks before executing queries.
