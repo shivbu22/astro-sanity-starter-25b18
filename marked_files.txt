@@ -1,8 +1,0 @@
-src/components/Testimonials.astro
-src/components/Cta.astro
-src/components/Hero.astro
-src/components/Card.astro
-src/components/Testimonial.astro
-src/components/Logos.astro
-src/components/Footer.astro
-src/components/Cards.astro
