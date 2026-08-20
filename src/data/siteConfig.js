@@ -15,5 +15,13 @@ const CONFIG_QUERY_OBJ = `{
 }`;
 
 export async function fetchData() {
-    return await client.fetch(`*[_type == "siteConfig"][0] ${CONFIG_QUERY_OBJ}`);
+    try {
+        return await client.fetch(`*[_type == "siteConfig"][0] ${CONFIG_QUERY_OBJ}`);
+    } catch (e) {
+        if (e.message?.includes('not found') || e.statusCode === 404) {
+            console.warn('Sanity credentials dummy or invalid for siteConfig, returning null to avoid breaking build');
+            return null;
+        }
+        throw e;
+    }
 }
