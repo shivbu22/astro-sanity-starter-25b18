@@ -14,9 +14,25 @@ const PAGE_QUERY_OBJ = `{
 }`;
 
 export async function fetchData() {
-    return await client.fetch(`*[_type == "page"] ${PAGE_QUERY_OBJ}`);
+    try {
+        return await client.fetch(`*[_type == "page"] ${PAGE_QUERY_OBJ}`);
+    } catch (e) {
+        if (e.message?.includes('not found') || e.statusCode === 404) {
+            console.warn('Sanity credentials dummy or invalid, returning empty array to avoid breaking build');
+            return [];
+        }
+        throw e;
+    }
 }
 
 export async function getPageById(id) {
-    return await client.fetch(`*[_type == "page" && _id == "${id}"] ${PAGE_QUERY_OBJ}`);
+    try {
+        return await client.fetch(`*[_type == "page" && _id == "${id}"] ${PAGE_QUERY_OBJ}`);
+    } catch (e) {
+        if (e.message?.includes('not found') || e.statusCode === 404) {
+            console.warn('Sanity credentials dummy or invalid, returning empty array to avoid breaking build');
+            return [];
+        }
+        throw e;
+    }
 }
