@@ -1,5 +1,5 @@
 ---
-import { safeMarkedParse } from '@utils/markdown';
+import { marked } from 'marked';
 import { type TestimonialsSection } from 'types';
 import Testimonial from '@components/Testimonial.astro';
 import Section from '@components/Section.astro';
@@ -19,7 +19,7 @@ const { heading, body, items, columns, ...rest } = Astro.props;
             </h2>
         )
     }
-    {body && <div class:list={['mx-auto', heading && 'mt-4', 'max-w-prose markdown']} data-sb-field-path=".body" set:html={safeMarkedParse(body)} />}
+    {body && <div class:list={['mx-auto', heading && 'mt-4', 'max-w-prose markdown']} data-sb-field-path=".body" set:html={marked.parse(body)} />}
     {
         items && items?.length > 0 && (
             <div

@@ -1,4 +1,0 @@
-## 2024-05-15 - XSS in Astro set:html with Marked
-**Vulnerability:** Directly using `marked.parse(content)` within Astro's `set:html` attribute without sanitization exposes the application to Cross-Site Scripting (XSS) if the markdown content originates from an untrusted source or is compromised.
-**Learning:** Astro's `set:html` bypasses built-in escaping mechanisms, rendering raw HTML directly into the DOM. `marked` by itself does not sanitize HTML out-of-the-box in recent versions (the `sanitize` option was deprecated and removed).
-**Prevention:** Never use `marked.parse()` directly within `set:html`. Always pass the output of `marked.parse()` through a robust HTML sanitizer like DOMPurify (using JSDOM in Node/SSR environments) before rendering it with `set:html`, utilizing a secure utility function like `safeMarkedParse`.
