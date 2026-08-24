@@ -1,0 +1,4 @@
+## 2026-08-24 - GROQ Query Injection
+**Vulnerability:** Sanity CMS GROQ queries in `src/data/page.js` were constructed using string interpolation (`_id == "${id}"`), leading to a GROQ query injection vulnerability.
+**Learning:** Even though Sanity is a headless CMS, its query language (GROQ) is susceptible to injection attacks if user inputs are concatenated directly. Also, the Astro build will break during SSR evaluation if falsy or undefined values are passed to parameterized queries without a prior check, or if `client.fetch` fails because of lacking credentials.
+**Prevention:** Always use parameterized queries (e.g., `_id == $id` with a `{ id }` parameter object). Always add early exit logic (e.g., `if (!id) return [];`) and return empty arrays for types returning arrays, and wrap `client.fetch` in `try/catch` to return safe fallbacks.
