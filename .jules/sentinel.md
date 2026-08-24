@@ -1,0 +1,4 @@
+## 2024-11-20 - [GROQ Injection] Fix GROQ query injection
+**Vulnerability:** The Sanity GROQ query in `getPageById` used string interpolation (`_id == "${id}"`) instead of parameterized queries. This could allow GROQ injection attacks if user-controlled input reaches this method. Additionally, it could cause SSR failures during builds if `id` is undefined.
+**Learning:** We need to explicitly check and fallback falsy parameters like `id` and wrap `client.fetch` in a try/catch, especially since the Sanity client can crash the build on undefined variables or missing credentials in CI.
+**Prevention:** Always use parameterized variables (`$id` and `{ id }`) when constructing GROQ queries dynamically instead of string concatenation. Always validate `id` before the fetch and provide an empty array (`[]`) fallback on error.
