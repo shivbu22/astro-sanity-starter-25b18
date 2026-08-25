@@ -6,7 +6,7 @@ interface Props extends Footer {
     'data-sb-field-path'?: string;
 }
 
-const { text, 'data-sb-field-path': fieldPath } = Astro.props;
+const { text, 'data-sb-field-path': fieldPath } = Astro.props || {};
 ---
 
 {
