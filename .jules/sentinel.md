@@ -1,0 +1,4 @@
+## 2025-05-18 - [CRITICAL] GROQ Query Injection in Sanity Client
+**Vulnerability:** String concatenation was being used directly in Sanity `client.fetch` queries (`*[_type == "page" && _id == "${id}"]`), which allows GROQ query injection attacks if the `id` is derived from an untrusted source.
+**Learning:** Sanity GROQ queries act much like SQL and are vulnerable to similar injection techniques when strings are simply appended or interpolated together.
+**Prevention:** Always use parameterized queries (e.g., `*[_type == "page" && _id == $id]`) passing the parameters object (e.g., `{ id }`) as the second argument to `client.fetch()`. Additionally, gracefully handle falsy/undefined values (e.g., `if (!id) return [];`) prior to execution to avoid build crashes during Server-Side Rendering (SSR).
