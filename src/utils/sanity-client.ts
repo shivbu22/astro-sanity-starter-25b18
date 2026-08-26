@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const sanityConfig: ClientConfig = {
-    projectId: SANITY_PROJECT_ID,
+    projectId: SANITY_PROJECT_ID || 'dummy-id',
     dataset: SANITY_DATASET || 'production',
     useCdn: false,
     apiVersion: '2024-01-31',
@@ -28,15 +28,21 @@ export const client = createClient(sanityConfig);
  * @param {Array<String>} types An array of types the listener should take an action on
  * Creating Sanity listener to subscribe to whenever a new document is created or deleted to refresh the list in Create
  */
-[{ client: client, types: ['page'] }].forEach(({ client, types }: { client: SanityClient; types: Array<String> }) =>
-    client.listen(`*[_type in ${JSON.stringify(types)}]`, {}, { visibility: 'query' }).subscribe(async (event: any) => {
-        // only refresh when pages are deleted or created
-        if (event.transition === 'appear' || event.transition === 'disappear') {
-            const filePath = path.join(__dirname, '../layouts/Layout.astro');
-            const time = new Date();
-            
-            // update the updatedat stamp for the layout file, triggering astro to refresh the data in getStaticPaths
-            await fs.promises.utimes(filePath, time, time);
+if (process.env.NODE_ENV !== 'production' || process.env.CONTEXT === 'deploy-preview') {
+    [{ client: client, types: ['page'] }].forEach(({ client, types }: { client: SanityClient; types: Array<String> }) => {
+        try {
+            client.listen(`*[_type in ${JSON.stringify(types)}]`, {}, { visibility: 'query' }).subscribe(async (event: any) => {
+                // only refresh when pages are deleted or created
+                if (event.transition === 'appear' || event.transition === 'disappear') {
+                    const filePath = path.join(__dirname, '../layouts/Layout.astro');
+                    const time = new Date();
+
+                    // update the updatedat stamp for the layout file, triggering astro to refresh the data in getStaticPaths
+                    await fs.promises.utimes(filePath, time, time);
+                }
+            });
+        } catch(e) {
+            console.error("Failed to connect sanity client listener", e);
         }
-    })
-);
+    });
+}
