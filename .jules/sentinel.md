@@ -1,0 +1,4 @@
+## 2026-08-26 - [CRITICAL] GROQ Query Injection
+**Vulnerability:** String interpolation (`_id == "${id}"`) was used in `client.fetch` inside `src/data/page.js` to build a Sanity GROQ query.
+**Learning:** Concatenating user inputs directly into GROQ queries exposes the application to query injection attacks, allowing attackers to manipulate queries to access or modify unauthorized data. Furthermore, using string interpolation for GROQ parameters fails to safely handle missing or nullish variables.
+**Prevention:** Always use parameterized queries (`_id == $id`) with the `params` object (`{ id }`) provided to `client.fetch`. Always handle edge cases like undefined variables gracefully (e.g., `if (!id) return [];`) before making the query.
