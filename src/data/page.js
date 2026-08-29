@@ -14,10 +14,18 @@ const PAGE_QUERY_OBJ = `{
 }`;
 
 export async function fetchData() {
-    return await client.fetch(`*[_type == "page"] ${PAGE_QUERY_OBJ}`);
+    try {
+        return await client.fetch(`*[_type == "page"] ${PAGE_QUERY_OBJ}`);
+    } catch (error) {
+        return [];
+    }
 }
 
 export async function getPageById(id) {
     if (!id) return [];
-    return await client.fetch(`*[_type == "page" && _id == $id] ${PAGE_QUERY_OBJ}`, { id });
+    try {
+        return await client.fetch(`*[_type == "page" && _id == $id] ${PAGE_QUERY_OBJ}`, { id });
+    } catch (error) {
+        return [];
+    }
 }
