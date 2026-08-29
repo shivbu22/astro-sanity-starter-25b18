@@ -15,7 +15,7 @@ interface Props {
 
 const { addTitleSuffix, description, image } = Astro.props;
 
-const configData: SiteConfig = (await fetchData()) || {};
+const configData: SiteConfig = (await fetchData()) || { header: { logo: {} }, footer: {} } as any;
 const titleSuffix = configData.titleSuffix && addTitleSuffix !== false ? configData.titleSuffix : undefined;
 const title = [Astro.props.title, titleSuffix].filter(Boolean).join(' | ');
 const resolvedImage = image?.src ? { src: new URL(image.src, Astro.site).toString() } : undefined;
