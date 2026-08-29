@@ -1,0 +1,4 @@
+## 2024-05-24 - [CRITICAL] Prevent GROQ Query Injection
+**Vulnerability:** Sanity CMS GROQ queries were using string interpolation (e.g. `_id == "${id}"`) for user inputs, which exposes the application to GROQ query injection vulnerabilities allowing malicious actors to bypass query logic or access unauthorized data.
+**Learning:** String concatenation must not be used with Sanity client fetches. Even for internal IDs or identifiers, any dynamic parameter must be parameterized to prevent injection vectors, and falsy parameter values should be handled proactively (e.g., `if (!id) return []`) to avoid `undefined` interpolation errors during Astro SSR/SSG.
+**Prevention:** Always use parameterized GROQ queries (e.g. `_id == $id`) and pass parameters as an object in the second argument to `client.fetch(query, { id })`.
