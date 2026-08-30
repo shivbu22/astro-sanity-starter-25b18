@@ -1,0 +1,4 @@
+## 2026-08-30 - Fix GROQ Injection in Page Query
+**Vulnerability:** A GROQ injection vulnerability was identified in `src/data/page.js` where the `getPageById` function used string interpolation to insert an ID directly into the query string (`*[_type == "page" && _id == "${id}"]`).
+**Learning:** Using string interpolation with unsanitized inputs allows attackers to manipulate the query, potentially reading restricted data or causing a denial of service (DoS) by sending malicious payloads.
+**Prevention:** All queries accepting dynamic input must use parameterized queries (e.g., `*[_type == "page" && _id == $id]`) and pass an object with parameters to the Sanity client (e.g., `client.fetch(query, { id })`). Additionally, parameter presence should be validated (e.g., `if (!id) return [];`) before executing the query.
