@@ -1,0 +1,4 @@
+## 2024-05-18 - [CRITICAL] GROQ Injection in Page Queries
+**Vulnerability:** Found GROQ injection vulnerability in `src/data/page.js` where user input `id` was being interpolated directly into the query string: `*[_type == "page" && _id == "${id}"]`.
+**Learning:** Sanity GROQ queries must always use parameterized queries to prevent injection attacks, similar to SQL injection. Using template literals for dynamic values creates a significant security risk. Furthermore, failing Sanity API fetches in CI environments due to missing credentials can crash the Astro build process if not properly caught and handled.
+**Prevention:** Always use parameterized queries (e.g., `_id == $id` with `{ id }` passed as variables) for any dynamic inputs in GROQ queries. Ensure early returns for missing inputs and wrap fetches in `try/catch` blocks returning safe fallbacks (`[]` or `null`) to allow builds to gracefully complete.
