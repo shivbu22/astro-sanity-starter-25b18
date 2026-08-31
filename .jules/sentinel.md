@@ -1,0 +1,4 @@
+## 2024-03-24 - GROQ Query Injection
+**Vulnerability:** A GROQ query injection vulnerability was found in `src/data/page.js` where user input (`id`) was being directly interpolated into the query string (`*[_type == "page" && _id == "${id}"]`).
+**Learning:** String interpolation in GROQ queries, just like SQL injection, allows attackers to manipulate the query structure, potentially exposing unauthorized data or causing denial of service.
+**Prevention:** Always use parameterized queries (e.g., `$id` with an `{ id }` params object) when passing user input to Sanity's `client.fetch`. Never construct queries using template literals with user-supplied variables. Additionally, ensure fallback mechanisms (`try/catch` and returning `[]`) are in place for SSR to fail securely and gracefully.
