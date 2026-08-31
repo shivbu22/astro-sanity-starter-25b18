@@ -1,0 +1,4 @@
+## 2024-08-31 - GROQ Query Injection via String Interpolation
+**Vulnerability:** The `getPageById` function in `src/data/page.js` was using string interpolation (`"${id}"`) directly inside a GROQ query to fetch Sanity CMS documents. This allows an attacker to inject arbitrary GROQ query parameters or logic, leading to data exfiltration or potential denial of service.
+**Learning:** This existed because of a lack of parameterization awareness with GROQ queries. Developers often default to string interpolation in JavaScript, but it is just as dangerous in NoSQL/GROQ queries as it is in SQL.
+**Prevention:** Always use parameterized queries (e.g., `$id` in the query and `{ id }` in the fetch options) when passing dynamic variables to Sanity client fetch methods. Avoid string interpolation for query values.
