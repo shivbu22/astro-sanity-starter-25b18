@@ -14,9 +14,20 @@ const PAGE_QUERY_OBJ = `{
 }`;
 
 export async function fetchData() {
-    return await client.fetch(`*[_type == "page"] ${PAGE_QUERY_OBJ}`);
+    try {
+        return await client.fetch(`*[_type == "page"] ${PAGE_QUERY_OBJ}`);
+    } catch (err) {
+        console.error('Sanity fetch error (page data):', err);
+        return [];
+    }
 }
 
 export async function getPageById(id) {
-    return await client.fetch(`*[_type == "page" && _id == "${id}"] ${PAGE_QUERY_OBJ}`);
+    if (!id) return [];
+    try {
+        return await client.fetch(`*[_type == "page" && _id == $id] ${PAGE_QUERY_OBJ}`, { id });
+    } catch (err) {
+        console.error('Sanity fetch error (page by id):', err);
+        return [];
+    }
 }
