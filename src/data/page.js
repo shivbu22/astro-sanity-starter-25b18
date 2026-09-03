@@ -14,21 +14,9 @@ const PAGE_QUERY_OBJ = `{
 }`;
 
 export async function fetchData() {
-    try {
-        return await client.fetch(`*[_type == "page"] ${PAGE_QUERY_OBJ}`);
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return [];
-    }
+    return await client.fetch(`*[_type == "page"] ${PAGE_QUERY_OBJ}`);
 }
 
 export async function getPageById(id) {
-    if (!id) return [];
-
-    try {
-        return await client.fetch(`*[_type == "page" && _id == $id] ${PAGE_QUERY_OBJ}`, { id });
-    } catch (error) {
-        console.error(`Error fetching page with id ${id}:`, error);
-        return [];
-    }
+    return await client.fetch(`*[_type == "page" && _id == "${id}"] ${PAGE_QUERY_OBJ}`);
 }

@@ -15,10 +15,5 @@ const CONFIG_QUERY_OBJ = `{
 }`;
 
 export async function fetchData() {
-    try {
-        return await client.fetch(`*[_type == "siteConfig"][0] ${CONFIG_QUERY_OBJ}`);
-    } catch (error) {
-        console.error('Error fetching site config:', error);
-        return null;
-    }
+    return await client.fetch(`*[_type == "siteConfig"][0] ${CONFIG_QUERY_OBJ}`);
 }
