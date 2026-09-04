@@ -14,9 +14,20 @@ const PAGE_QUERY_OBJ = `{
 }`;
 
 export async function fetchData() {
-    return await client.fetch(`*[_type == "page"] ${PAGE_QUERY_OBJ}`);
+    try {
+        return await client.fetch(`*[_type == "page"] ${PAGE_QUERY_OBJ}`);
+    } catch (error) {
+        console.error('Failed to fetch pages data:', error.message);
+        return [];
+    }
 }
 
 export async function getPageById(id) {
-    return await client.fetch(`*[_type == "page" && _id == "${id}"] ${PAGE_QUERY_OBJ}`);
+    if (!id) return [];
+    try {
+        return await client.fetch(`*[_type == "page" && _id == $id] ${PAGE_QUERY_OBJ}`, { id });
+    } catch (error) {
+        console.error(`Failed to fetch page data for id ${id}:`, error.message);
+        return [];
+    }
 }
