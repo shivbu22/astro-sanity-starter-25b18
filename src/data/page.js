@@ -24,5 +24,10 @@ export async function fetchData() {
 
 export async function getPageById(id) {
     if (!id) return [];
-    return await client.fetch(`*[_type == "page" && _id == $id] ${PAGE_QUERY_OBJ}`, { id });
+    try {
+        return await client.fetch(`*[_type == "page" && _id == $id] ${PAGE_QUERY_OBJ}`, { id });
+    } catch (e) {
+        console.error('Get page by id failed:', e.message);
+        return [];
+    }
 }
